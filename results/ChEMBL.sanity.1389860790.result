@@ -1,0 +1,229 @@
+[
+   {
+      "comparison" : {
+         "headers" : [
+            {
+               "status" : "PASS"
+            },
+            {
+               "status" : "PASS"
+            }
+         ],
+         "format" : [
+            {
+               "status" : "FAIL",
+               "message" : "Got a response format value of \"application/json;charset=UTF-8\", which does not match the regexp expression \"^html\""
+            },
+            {
+               "status" : "FAIL",
+               "message" : "Got a response format value of \"application/json;charset=UTF-8\", which does not match the regexp expression \"^html\""
+            }
+         ],
+         "time" : [
+            {
+               "status" : "PASS"
+            }
+         ],
+         "content" : [
+            {
+               "status" : "FAIL",
+               "message" : "The response content value found at jsonpath \"$.compound.knownDrug\" is \"No\" instead of the expected value \"Yes\""
+            },
+            {
+               "status" : "PASS"
+            }
+         ],
+         "size" : [
+            {
+               "status" : "PASS"
+            }
+         ],
+         "code" : [
+            {
+               "status" : "PASS"
+            }
+         ]
+      },
+      "actual" : {
+         "headers" : {
+            "connection" : "close",
+            "cache-control" : "no-cache, no-store, max-age=0",
+            "date" : "Thu, 16 Jan 2014 08:26:32 GMT",
+            "client-peer" : "193.62.192.80:443",
+            "client-ssl-cipher" : "RC4-SHA",
+            "client-ssl-cert-issuer" : "/C=NL/O=TERENA/CN=TERENA SSL CA",
+            "client-date" : "Thu, 16 Jan 2014 08:26:32 GMT",
+            "pragma" : "no-cache",
+            "content-type" : "application/json;charset=UTF-8",
+            "client-ssl-warning" : "Peer certificate not verified",
+            "content-language" : "en-US",
+            "server" : "Apache-Coyote/1.1",
+            "client-response-num" : 1,
+            "content-length" : "387",
+            "::std_case" : {
+               "base" : "Base",
+               "content-base" : "Content-Base",
+               "set-cookie" : "Set-Cookie",
+               "client-response-num" : "Client-Response-Num",
+               "client-ssl-cert-issuer" : "Client-SSL-Cert-Issuer",
+               "client-ssl-cipher" : "Client-SSL-Cipher",
+               "client-peer" : "Client-Peer",
+               "client-date" : "Client-Date",
+               "set-cookie2" : "Set-Cookie2",
+               "client-ssl-warning" : "Client-SSL-Warning",
+               "client-ssl-cert-subject" : "Client-SSL-Cert-Subject"
+            },
+            "client-ssl-cert-subject" : "/OU=Domain Control Validated/CN=www.ebi.ac.uk",
+            "expires" : "Thu, 01 Jan 1970 00:00:00 GMT"
+         },
+         "time" : 2.34874,
+         "content" : "{\"compound\":{\"chemblId\":\"CHEMBL1\",\"knownDrug\":\"No\",\"medChemFriendly\":\"Yes\",\"passesRuleOfThree\":\"No\",\"molecularFormula\":\"C32H32O8\",\"smiles\":\"COc1ccc2[C@@H]3[C@H](COc2c1)C(C)(C)OC4=C3C(=O)C(=O)C5=C4OC(C)(C)[C@@H]6COc7cc(OC)ccc7[C@H]56\",\"stdInChiKey\":\"GHBOEFUAGSHXPO-XZOTUCIWSA-N\",\"numRo5Violations\":1,\"rotatableBonds\":2,\"molecularWeight\":544.59,\"alogp\":3.63,\"acdLogp\":7.67,\"acdLogd\":7.67}}",
+         "size" : "387",
+         "uri" : null,
+         "timestamp" : "2014-01-16T08:26:30Z",
+         "format" : "application/json;charset=UTF-8",
+         "code" : "200"
+      },
+      "expected" : {
+         "headers" : {
+            "variety" : "regexp",
+            "value" : "^[MTWTFS][ouehra][neduit], \\d{2} [JFMAJSOND][aepuco][nbrylgptvc] \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$",
+            "name" : "Date"
+         },
+         "format" : {
+            "variety" : "regexp",
+            "value" : "^html"
+         },
+         "time" : {
+            "variety" : "logical",
+            "operator" : "<",
+            "value" : 6
+         },
+         "content" : {
+            "variety" : "jsonpath",
+            "expression" : "$.compound.molecularFormula",
+            "value" : "C32H32O8"
+         },
+         "size" : {
+            "variety" : "logical",
+            "operator" : ">",
+            "value" : 100
+         },
+         "code" : {
+            "variety" : "logical",
+            "operator" : "==",
+            "value" : 200
+         }
+      }
+   },
+   {
+      "comparison" : {
+         "headers" : [
+            {
+               "status" : "PASS"
+            },
+            {
+               "status" : "PASS"
+            }
+         ],
+         "format" : [
+            {
+               "status" : "FAIL",
+               "message" : "Got a response format value of \"application/xml;charset=ISO-8859-1\", which does not match the regexp expression \"^xml\""
+            },
+            {
+               "status" : "FAIL",
+               "message" : "Got a response format value of \"application/xml;charset=ISO-8859-1\", which does not match the regexp expression \"^xml\""
+            }
+         ],
+         "time" : [
+            {
+               "status" : "PASS"
+            }
+         ],
+         "content" : [
+            {
+               "status" : "PASS"
+            }
+         ],
+         "size" : [
+            {
+               "status" : "PASS"
+            }
+         ],
+         "code" : [
+            {
+               "status" : "PASS"
+            }
+         ]
+      },
+      "actual" : {
+         "headers" : {
+            "connection" : "close",
+            "client-response-num" : 1,
+            "date" : "Thu, 16 Jan 2014 08:26:33 GMT",
+            "content-length" : "698",
+            "client-peer" : "193.62.192.80:443",
+            "client-ssl-cipher" : "RC4-SHA",
+            "client-ssl-cert-issuer" : "/C=NL/O=TERENA/CN=TERENA SSL CA",
+            "::std_case" : {
+               "base" : "Base",
+               "content-base" : "Content-Base",
+               "set-cookie" : "Set-Cookie",
+               "client-response-num" : "Client-Response-Num",
+               "client-ssl-cert-issuer" : "Client-SSL-Cert-Issuer",
+               "client-ssl-cipher" : "Client-SSL-Cipher",
+               "client-peer" : "Client-Peer",
+               "client-date" : "Client-Date",
+               "set-cookie2" : "Set-Cookie2",
+               "client-ssl-warning" : "Client-SSL-Warning",
+               "client-ssl-cert-subject" : "Client-SSL-Cert-Subject"
+            },
+            "client-date" : "Thu, 16 Jan 2014 08:26:34 GMT",
+            "content-type" : "application/xml;charset=ISO-8859-1",
+            "client-ssl-warning" : "Peer certificate not verified",
+            "content-language" : "en-US",
+            "client-ssl-cert-subject" : "/OU=Domain Control Validated/CN=www.ebi.ac.uk",
+            "server" : "Apache-Coyote/1.1"
+         },
+         "time" : 1.139871,
+         "content" : "<compound><chemblId>CHEMBL1201760</chemblId><preferredCompoundName>BESIFLOXACIN</preferredCompoundName><synonyms>Besifloxacin</synonyms><knownDrug>Yes</knownDrug><medChemFriendly>No</medChemFriendly><passesRuleOfThree>No</passesRuleOfThree><molecularFormula>C19H21ClFN3O3</molecularFormula><smiles>N[C@@H]1CCCCN(C1)c2c(F)cc3C(=O)C(=CN(C4CC4)c3c2Cl)C(=O)O</smiles><stdInChiKey>QFFGVLORLPOAEC-SNVBAGLBSA-N</stdInChiKey><species>ZWITTERION</species><numRo5Violations>0</numRo5Violations><rotatableBonds>3</rotatableBonds><molecularWeight>393.84</molecularWeight><alogp>0.32</alogp><acdAcidicPka>6.41</acdAcidicPka><acdBasicPka>10.22</acdBasicPka><acdLogp>3.4</acdLogp><acdLogd>0.9</acdLogd></compound>",
+         "size" : "698",
+         "uri" : null,
+         "timestamp" : "2014-01-16T08:26:32Z",
+         "format" : "application/xml;charset=ISO-8859-1",
+         "code" : "200"
+      },
+      "expected" : {
+         "headers" : {
+            "variety" : "regexp",
+            "value" : "^[MTWTFS][ouehra][neduit], \\d{2} [JFMAJSOND][aepuco][nbrylgptvc] \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$",
+            "name" : "Date"
+         },
+         "format" : {
+            "variety" : "regexp",
+            "value" : "^xml"
+         },
+         "time" : {
+            "variety" : "logical",
+            "operator" : "<",
+            "value" : 6
+         },
+         "content" : {
+            "variety" : "xpath",
+            "expression" : "/compound/medChemFriendly/text()",
+            "value" : "No"
+         },
+         "size" : {
+            "variety" : "logical",
+            "operator" : ">",
+            "value" : 100
+         },
+         "code" : {
+            "variety" : "logical",
+            "operator" : "==",
+            "value" : 200
+         }
+      }
+   }
+]

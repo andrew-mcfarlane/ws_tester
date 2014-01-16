@@ -1,0 +1,21 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"definitions": {
+		"authorization": {
+			"type": "object",
+			"properties": {
+				"variety": { "type": "string" },
+				"key": { "type": "string" }
+			},
+			"required": ["variety"]
+		}
+	},
+	"properties": {
+		"description": { "type": "string" },
+		"name": { "type": "string" },
+		"application_type": { "enum": ["web_service_rest", "web_site"] },
+		"authorization": { "$ref": "#/definitions/authorization" }
+	},
+	"required": ["application_type", "name"]
+}

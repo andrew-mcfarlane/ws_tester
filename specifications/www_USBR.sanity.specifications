@@ -1,0 +1,103 @@
+[
+	{
+		"title": "Negative search test",
+		"steps": [
+			{
+				"request": {
+					"variety": "uri",
+					"target": {
+						"uri": {
+							"scheme": "http",
+							"host": "www.usbr.gov",
+							"port": 80
+						},
+						"method": "GET"
+					}
+				},
+				"response_expected": {
+						"headers": [
+							{"name": "Connection", "variety": "regexp", "value": "^close$"},
+							{"name": "Date", "variety": "regexp", "value": "^[MTWTFS][ouehra][neduit], \\d{2} [JFMAJSOND][aepuco][nbrylgptvc] \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$"}
+						],
+						"format": [{ "variety": "regexp", "value": "html"}],
+						"time": [{ "variety": "logical", "operator": "<", "value": 6.0 }],
+						"content": [
+							{
+								"value": "url=images/search.gif",
+								"variety": "image"
+							}						
+						],
+						"size": [{ "variety": "logical", "operator": ">", "value": 1000 }],
+						"code": [{ "variety": "logical", "operator": "==", "value": 200 }],
+						"title": [{ "variety": "logical", "operator": "eq", "value": "Bureau of Reclamation Homepage"}]
+				}
+			},
+			{
+				"request": {
+					"variety": "form",
+					"target": {
+						"form_id": "search",
+						"fields": {
+								"qt": "nowaywillthisbefound"
+						}
+					}
+				},
+				"response_expected": {
+						"headers": [
+							{"name": "Connection", "variety": "regexp", "value": "^close$"},
+							{"name": "Date", "variety": "regexp", "value": "^[MTWTFS][ouehra][neduit], \\d{2} [JFMAJSOND][aepuco][nbrylgptvc] \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$"}
+						],
+						"format": [{ "variety": "regexp", "value": "html"}],
+						"time": [{ "variety": "logical", "operator": "<", "value": 6.0 }],
+						"content": [
+							{
+								"variety": "regexp",
+								"value": "did not match any documents"
+							},
+							{
+								"value": "url_abs=http://www.usbr.gov/images/doilogo.gif",
+								"variety": "image"
+							}
+						],
+						"size": [{ "variety": "logical", "operator": ">", "value": 1000 }],
+						"code": [{ "variety": "logical", "operator": "==", "value": 200 }],
+						"title": [{ "variety": "logical", "operator": "eq", "value": "Bureau of Reclamation Homepage"}]
+				}
+			},
+                        {
+                                "request": {
+                                        "variety": "form",
+                                        "target": {
+                                                "form_id": "search",
+                                                "fields": {
+                                                                "qt": "water"
+                                                }
+                                        }
+                                },
+                                "response_expected": {
+                                                "headers": [
+                                                        {"name": "Connection", "variety": "regexp", "value": "^close$"},
+                                                        {"name": "Date", "variety": "regexp", "value": "^[MTWTFS][ouehra][neduit], \\d{2} [JFMAJSOND][aepuco][nbrylgptvc] \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$"}
+                                                ],
+                                                "format": [{ "variety": "regexp", "value": "html"}],
+                                                "time": [{ "variety": "logical", "operator": "<", "value": 6.0 }],
+                                                "content": [
+							{
+								"variety": "xpath",
+								"expression": "//div[@id=\"links0\"]/div/b/text()",
+								"value": "1"
+							},
+                                                        {
+                                                                "value": "url_abs=http://www.usbr.gov/images/doilogo.gif",
+                                                                "variety": "image"
+                                                        }
+                                                ],
+                                                "size": [{ "variety": "logical", "operator": ">", "value": 1000 }],
+                                                "code": [{ "variety": "logical", "operator": "==", "value": 200 }],
+                                                "title": [{ "variety": "logical", "operator": "eq", "value": "Bureau of Reclamation Homepage"}]
+                                }
+                        }
+		]
+	}
+]
+

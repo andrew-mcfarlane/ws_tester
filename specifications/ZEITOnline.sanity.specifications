@@ -1,0 +1,33 @@
+[
+	{
+		"title": "Search for the word \"Deutschland\"",
+		"steps": [
+			{
+				"request": {
+					"variety": "uri",
+					"target": {
+						"scheme": "http",
+						"host": "api.zeit.de",
+						"port": 80,
+						"path": "content",
+						"query": [
+							{"q": "Deutschland"},
+							{"limit": 5},
+							{"offset": 0}
+						]
+					},
+					"method": "GET"
+				},
+				"response_expected": {
+					"headers": [
+						{"name": "Access-Control-Allow-Headers", "variety": "regexp", "value": "(?^:^x-authorization$)"}
+					],					
+					"format": [{ "variety": "regexp", "value": "(?^:json)"}],
+					"time": [{ "variety": "logical", "operator": "<", "value": 6.0 }],
+					"size": [{ "variety": "logical", "operator": ">", "value": 100 }],
+					"code": [{ "variety": "logical", "operator": "==", "value": 200 }]		
+				}
+			}
+		]
+	}
+]

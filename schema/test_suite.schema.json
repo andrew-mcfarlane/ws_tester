@@ -1,0 +1,162 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "array",
+	"items": { "$ref": "#/definitions/test" },
+	"definitions": {
+		"uri": {
+			"type": "object",
+			"properties": {
+				"scheme": {	"type": "string" },
+				"host": { "type": "string" },
+				"port": { "type": "integer" },
+				"authority": {
+					"type": "object",
+					"properties": {
+						"username": { "type": "string" },
+						"password": { "type": "string" }
+					}
+				},
+				"path": { "type": "string" },
+				"query": {
+					"type": "array",
+					"items": { "type": "object" }
+				},
+				"fragment": { "type": "string" }
+			},
+			"required": ["scheme", "host", "port"]
+		},
+		"header": {
+			"type": "object",
+			"properties": {
+				"name": { "type": "string" },
+				"values": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [ "type", "properties" ]
+		},
+		"body": {
+			"type": "object",
+			"properties": {
+				"format": { "type": "string" },
+				"payload": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {  "type": "string" },
+							"value": { "type": "string" }
+						}
+					}
+				}
+			}
+		},
+		"field": {
+			"type": "object"
+		},
+		"form": {
+			"type": "object",
+			"properties": {
+				"fields": { "$ref": "#/definitions/fields" }
+			}
+		},
+		"request": {
+			"type": "object",
+			"properties": {
+				"variety": { "enum": [ "uri", "form", "link", "button" ] },
+				"target": {
+					"type": "object",
+					"properties": {
+						"uri": { "$ref": "#/definitions/uri" },
+						"id": { "type": "string" },
+						"name": { "type": "string" },
+						"xpath": { "type": "string" },
+						"fields": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/field"
+							}
+						},					
+						"method": { "enum": [ "GET","POST","PUT","DELETE" ] }
+					}
+				},
+				"headers": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/header"
+					}
+				},
+				"body": { "$ref": "#/definitions/body" }
+			},
+			"required": ["variety", "target"]
+		},
+		"step": {
+			"type": "object",
+			"properties": {
+				"request": { "$ref": "#/definitions/request" },
+				"response": { "$ref": "#/definitions/response" }
+			}
+		},
+		"comparison": {
+			"type": "object",
+			"properties": {
+				"name": { "type": "string" },
+				"variety": { "enum": [ "regexp", "logical", "widget", "xpath", "jsonpath" ] },
+				"value": { "type": "string" },
+				"operator": { "type": "string" },
+				"expression": { "type": "string" }
+			},
+			"required": [ "variety", "value" ]
+		},
+		"response_expected": {
+			"type": "object",
+			"properties": {
+				"headers": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				},
+				"format": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				},
+				"time": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				},
+				"content": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				},
+				"size": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				},
+				"uri": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				},
+				"code": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				}
+			}
+		},
+		"test": {
+			"type": "object",
+			"properties": {
+				"title": { "type": "string" },
+				"uuid": {
+					"type": "string",
+					"pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+				},
+				"steps": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/step" }
+				}
+			}	
+		}
+	}
+}

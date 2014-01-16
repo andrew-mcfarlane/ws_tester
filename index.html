@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <link rel="stylesheet" href="/lib/css/black-tie/jquery-ui.min.css"  media="all" type="text/css" />
+        <link rel="stylesheet" href="/lib/css/black-tie/jquery.ui.theme.css"  media="all" type="text/css" />
+        <link rel="stylesheet" href="/lib/javascript/jquery/plugins/pnotify/jquery.pnotify.default.css"  media="all" type="text/css" />
+        <link rel="stylesheet" href="/lib/javascript/jquery/plugins/pnotify/jquery.pnotify.default.icons.css"  media="all" type="text/css" />
+        <link rel="stylesheet" href="/lib/javascript/jquery/plugins/tablesorter-master/css/theme.default.css"  media="all" type="text/css" />
+        <link rel="stylesheet" href="/lib/css/ws_tester.css" type="text/css" />
+
+        <script type="text/javascript" language="javascript" src="/lib/javascript/jquery/jquery-2.1.0-beta2.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/spin.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/jquery/plugins/jquery.spin/jquery.spin.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/jquery/plugins/selectboxes/jquery.selectboxes.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/jquery/plugins/pnotify/jquery.pnotify.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/jquery/plugins/tablesorter-master/js/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/jquery/plugins/tablesorter-master/js/jquery.tablesorter.widgets.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/jquery/plugins/tablesorter-master/addons/pager/jquery.tablesorter.pager.min.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/vkbeautify.js"></script>
+        <script type="text/javascript" language="javascript" src="/lib/javascript/moment.min.js"></script>
+        
+
+        <script type="text/javascript" language="javascript" src="/lib/javascript/spin.min.js"></script>
+        
+        <script type="text/javascript" language="javascript" src="/lib/javascript/ws_tester/ws_tester.js"></script>
+    <title>Application Tester</title>
+  </head>
+  <body>
+    <div id="tabs">
+                <ul>
+                        <li>
+                                <a href="#test">Test</a>
+                        </li>
+                        <li>
+                                <a href="#review">Review</a>
+                        <li>
+                                <a href="#admin">Admin</a>
+                        </li>
+                </ul>
+                <div id="test">
+                        <div id="test_applications_container">
+                                <label for="test_applications">Application</label>
+                                <select id="test_applications" class="menu">
+                                </select>
+                        </div>
+                        
+                        <div id="test_test_types_container">
+                                <label for="test_test_types">Test Types</label>
+                                <select id="test_test_types" class="menu">
+                                </select>
+                        </div>
+                        
+                        <button id="execute">Execute</button>
+                        
+                        <div id="test_wait"></div>
+                        
+                        <div id="test_results_container"></div>
+                </div>
+                <div id="review">
+                        <div id="review_applications_container">
+                                <label for="review_applications">Application</label>
+                                <select id="review_applications" class="menu">
+                                </select>
+                        </div>
+
+                        <div id="review_test_types_container">
+                                <label for="review_test_types">Test Types</label>
+                                <select id="review_test_types" class="menu">
+                                </select>
+                        </div>
+
+                        <div id="run_date_container">
+                                <label for="run_dates">Run Dates</label>
+                                <select id="run_dates" class="menu">
+                                </select>
+                        </div>
+
+                        <button id="get">Get Results</button>
+
+                        <div id="review_wait"></div>
+
+                        <div id="review_results_container"></div>
+                </div>
+                <div id="admin">
+                        <p>Coming Soon!</p>
+                </div>
+        </div>
+  </body>
+</html>

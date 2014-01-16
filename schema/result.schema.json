@@ -1,0 +1,60 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"test_uuid": {
+			"type": "string",
+			"pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+		},
+		"timestamp": { "format": "date-time" },
+		"headers": {
+			"type": "array",
+			"items": { "$ref": "#/definitions/header" }
+		},
+		"format": { "$ref": "#/definitions/response_actual" },
+		"time": { "$ref": "#/definitions/response_actual" },
+		"content": { "$ref": "#/definitions/response_actual" },
+		"size": { "$ref": "#/definitions/response_actual" },
+		"uri": { "$ref": "#/definitions/response_actual" },
+		"code": { "$ref": "#/definitions/response_actual" }
+	},
+	"required": ["timestamp", "headers", "format", "time", "content", "size", "code"],
+	"definitions": {
+		"comparison": { "enum": [null,"PASS","FAIL"] },
+		"header": {
+			"type": "object",
+			"properties": {
+				"name": { "type": "string" },
+				"values": {
+					"type": "array",
+					"items": {
+						"anyOf": [
+							{ "type": "string" },
+							{ "type": "number" }
+						]
+					}
+				},
+				"comparisons": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				}
+			}
+		},
+		"response_actual": {
+			"type": "object",
+			"properties": {
+				"value": {
+					"anyOf": [
+						{ "type": "string" },
+						{ "type": "number" }
+					]
+				},
+				"comparisons": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/comparison" }
+				}
+			},
+			"required": ["value", "comparisons"]
+		}
+	}
+}
