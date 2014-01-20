@@ -1,0 +1,120 @@
+[
+   {
+      "steps" : [
+         {
+            "comparison" : {
+               "headers" : [
+                  {
+                     "status" : "PASS",
+                     "display" : "x-authorization"
+                  }
+               ],
+               "format" : [
+                  {
+                     "status" : "PASS",
+                     "display" : "application/json;charset=UTF-8"
+                  },
+                  {
+                     "status" : "PASS",
+                     "display" : "application/json;charset=UTF-8"
+                  }
+               ],
+               "time" : [
+                  {
+                     "status" : "PASS",
+                     "display" : "0.371824"
+                  }
+               ],
+               "size" : [
+                  {
+                     "status" : "PASS",
+                     "display" : "5693"
+                  }
+               ],
+               "code" : [
+                  {
+                     "status" : "PASS",
+                     "display" : "200"
+                  }
+               ]
+            },
+            "actual" : {
+               "headers" : {
+                  "access-control-allow-headers" : "x-authorization",
+                  "connection" : "close",
+                  "cache-control" : "max-age=1",
+                  "client-response-num" : 1,
+                  "date" : "Sun, 19 Jan 2014 02:08:33 GMT",
+                  "access-control-allow-origin" : "*",
+                  "content-length" : "5693",
+                  "client-peer" : "217.13.68.229:80",
+                  "age" : "0",
+                  "::std_case" : {
+                     "base" : "Base",
+                     "access-control-allow-headers" : "Access-Control-Allow-Headers",
+                     "content-base" : "Content-Base",
+                     "set-cookie" : "Set-Cookie",
+                     "client-response-num" : "Client-Response-Num",
+                     "access-control-allow-origin" : "Access-Control-Allow-Origin",
+                     "client-peer" : "Client-Peer",
+                     "client-date" : "Client-Date",
+                     "set-cookie2" : "Set-Cookie2"
+                  },
+                  "client-date" : "Sun, 19 Jan 2014 02:08:33 GMT",
+                  "content-type" : "application/json;charset=UTF-8",
+                  "server" : "Apache/2.2.22 (Ubuntu)"
+               },
+               "time" : 0.371824,
+               "content" : "{\n  \"matches\": [\n    {\n      \"subtitle\": \"Ein Schreiben des SPD-Politikers Ralf J\\u00e4ger zu Randalen in Stadien l\\u00f6st auf dem Fu\\u00dfballkongress Emp\\u00f6rung aus. In K\\u00f6ln wurde ein Fan bei einer Schl\\u00e4gerei schwer verletzt.\", \n      \"uuid\": \"66nQodJposeFiy9dWS2AR6\", \n      \"title\": \"Fanvertreter emp\\u00f6rt \\u00fcber \\\"Kampfansage\\\" von NRW-Innenminister J\\u00e4ger\", \n      \"href\": \"http://www.zeit.de/sport/2014-01/fan-kongress-jaeger\", \n      \"release_date\": \"2014-01-18T16:16:01Z\", \n      \"uri\": \"http://api.zeit.de/content/66nQodJposeFiy9dWS2AR6\", \n      \"snippet\": \" <em>Deutschland</em>, provozieren auf dem Weg zum Stadion Krawalle und Ausschreitungen.\\\"\\n\\\"Diese Worte, die er an uns richtet, sind eine Kampfansage\\\", sagte Sig Zelt von ProFans. Der Innenminister setze Fu\\u00dfballfans mit\", \n      \"supertitle\": \"Fankultur\", \n      \"teaser_text\": \"Ein Schreiben des SPD-Politikers Ralf J\\u00e4ger zu Randalen in Stadien l\\u00f6st auf dem Fu\\u00dfballkongress Emp\\u00f6rung aus. In K\\u00f6ln wurde ein Fan bei einer Schl\\u00e4gerei schwer verletzt.\", \n      \"teaser_title\": \"Fanvertreter emp\\u00f6rt \\u00fcber \\\"Kampfansage\\\" von NRW-Innenminister J\\u00e4ger\"\n    }, \n    {\n      \"subtitle\": \"Soll das alles gewesen sein? Die Reaktionen auf die Geheimdienstreformen des US-Pr\\u00e4sidenten fallen verhalten aus. Europ\\u00e4ische Politiker erwarten konkretere Schritte.\", \n      \"uuid\": \"5ycEqVV4rf0wmqbU6O8nTq\", \n      \"title\": \"Deutschland fordert nach Obamas Rede klare Vereinbarungen\", \n      \"href\": \"http://www.zeit.de/politik/ausland/2014-01/geheimdienstreform-obama-reaktionen\", \n      \"release_date\": \"2014-01-18T09:29:10Z\", \n      \"uri\": \"http://api.zeit.de/content/5ycEqVV4rf0wmqbU6O8nTq\", \n      \"snippet\": \" ausr\\u00e4umen. W\\u00e4hrend das Ausland die Reformen begr\\u00fc\\u00dfte, \\u00e4u\\u00dferten sich zahlreiche Politiker in <em>Deutschland</em> skeptisch, ob die Rede ernsthafte \\u00c4nderungen nach sich ziehen werde.\\nDie Europ\\u00e4ische Kommission teilte\", \n      \"supertitle\": \"Geheimdienstreform\", \n      \"teaser_text\": \"Soll das alles gewesen sein? Die Reaktionen auf die Geheimdienstreformen des US-Pr\\u00e4sidenten fallen verhalten aus. Europ\\u00e4ische Politiker erwarten konkretere Schritte.\", \n      \"teaser_title\": \"Deutschland fordert nach Obamas Rede klare Vereinbarungen\"\n    }, \n    {\n      \"subtitle\": \"Ein bisschen mehr Kontrolle, die aber niemandem richtig weh tut: Mit seiner NSA-Reform erweist sich der US-Pr\\u00e4sident einmal mehr als \\\"Mister Vorsicht\\\".\", \n      \"uuid\": \"5qfqxM33RTKqM8278vyU6J\", \n      \"title\": \"Der Sowohl-als-auch-Pr\\u00e4sident\", \n      \"href\": \"http://www.zeit.de/politik/ausland/2014-01/barack-obama-nsa-reform-rede\", \n      \"release_date\": \"2014-01-18T08:00:15Z\", \n      \"uri\": \"http://api.zeit.de/content/5qfqxM33RTKqM8278vyU6J\", \n      \"snippet\": \", sei die Basis guter diplomatischer Beziehungen.\\nDoch in dieser Zusage steckt zugleich die unausgesprochene Ank\\u00fcndigung, dass es dar\\u00fcber hinaus mit <em>Deutschland</em> und anderen Freunden kein sogenanntes\", \n      \"supertitle\": \"Geheimdienstreform\", \n      \"teaser_text\": \"Ein bisschen mehr Kontrolle, die aber niemandem richtig weh tut: Mit seiner NSA-Reform erweist sich der US-Pr\\u00e4sident einmal mehr als \\\"Mister Vorsicht\\\".\", \n      \"teaser_title\": \"Der Sowohl-als-auch-Pr\\u00e4sident\"\n    }, \n    {\n      \"subtitle\": \"Die Bundesregierung plant laut Medienberichten eine Ausweitung der Afrika-Eins\\u00e4tze. Die Bundeswehr soll gemeinsam mit franz\\u00f6sischen Soldaten in Krisengebieten operieren.\", \n      \"uuid\": \"18yAfsajJKhZEoeTecSvJa\", \n      \"title\": \"Regierung bereitet Eins\\u00e4tze in Mali und Zentralafrika vor\", \n      \"href\": \"http://www.zeit.de/politik/2014-01/bundeswehr-afrika-einsatz\", \n      \"release_date\": \"2014-01-17T22:00:29Z\", \n      \"uri\": \"http://api.zeit.de/content/18yAfsajJKhZEoeTecSvJa\", \n      \"snippet\": \" Lufttransport von Truppen und Material in die Hauptstadt Bangui zu \\u00fcbernehmen. Bisher war nur von Fl\\u00fcgen in ein Nachbarland die Rede gewesen.\\u00a0\\nBodentruppen der Bundeswehr sollen nicht entsandt werden. <em>Deutschland</em>\", \n      \"supertitle\": \"Bundeswehr\", \n      \"teaser_text\": \"Die Bundesregierung plant laut Medienberichten eine Ausweitung der Afrika-Eins\\u00e4tze. Die Bundeswehr soll gemeinsam mit franz\\u00f6sischen Soldaten in Krisengebieten operieren.\", \n      \"teaser_title\": \"Regierung bereitet Eins\\u00e4tze in Mali und Zentralafrika vor\"\n    }, \n    {\n      \"subtitle\": \"In der Antike geh\\u00f6rte Homosexualit\\u00e4t zum Alltag, im Mittelalter wurden Schwule verbrannt. Die Geschichte zeigt: Es war selten ungef\\u00e4hrlich, dasselbe Geschlecht zu lieben.\", \n      \"uuid\": \"1Z6ysnkr06SBafwXsQdq0g\", \n      \"title\": \"Gleichgeschlechtliche Liebe war in Ordnung, Sex verboten\", \n      \"href\": \"http://www.zeit.de/wissen/geschichte/2014-01/geschichte-der-homosexualitaet-schwule-lesben-verfolgung\", \n      \"release_date\": \"2014-01-17T17:49:05Z\", \n      \"uri\": \"http://api.zeit.de/content/1Z6ysnkr06SBafwXsQdq0g\", \n      \"snippet\": \" mit Heterosexuellen ist aber bis heute nicht erreicht. In <em>Deutschland</em> geht es um gesellschaftliche Anerkennung: die Rechte zu heiraten und Kinder zu adoptieren stehen noch aus. Und so manche Vorurteile\", \n      \"supertitle\": \"Geschichte der Homosexualit\\u00e4t\", \n      \"teaser_text\": \"In der Antike geh\\u00f6rte Homosexualit\\u00e4t zum Alltag, im Mittelalter wurden Schwule verbrannt. Die Geschichte zeigt: Es war selten ungef\\u00e4hrlich, dasselbe Geschlecht zu lieben.\", \n      \"teaser_title\": \"Gleichgeschlechtliche Liebe war in Ordnung, Sex verboten\"\n    }\n  ], \n  \"found\": 92328, \n  \"limit\": 5, \n  \"offset\": 0\n}",
+               "size" : "5693",
+               "uri" : null,
+               "timestamp" : "2014-01-19T02:08:32Z",
+               "format" : "application/json;charset=UTF-8",
+               "code" : "200"
+            },
+            "request" : {
+               "variety" : "uri",
+               "method_name" : "get",
+               "uri" : "http://api.zeit.de:80/content?q=Deutschland&limit=5&offset=0"
+            },
+            "expected" : {
+               "headers" : [
+                  {
+                     "variety" : "regexp",
+                     "value" : "^x-authorization$",
+                     "name" : "Access-Control-Allow-Headers"
+                  }
+               ],
+               "format" : [
+                  {
+                     "variety" : "regexp",
+                     "value" : "json"
+                  }
+               ],
+               "time" : [
+                  {
+                     "variety" : "logical",
+                     "operator" : "<",
+                     "value" : 6
+                  }
+               ],
+               "size" : [
+                  {
+                     "variety" : "logical",
+                     "operator" : ">",
+                     "value" : 100
+                  }
+               ],
+               "code" : [
+                  {
+                     "variety" : "logical",
+                     "operator" : "==",
+                     "value" : 200
+                  }
+               ]
+            }
+         }
+      ],
+      "title" : "Search for the word \"Deutschland\""
+   }
+]
