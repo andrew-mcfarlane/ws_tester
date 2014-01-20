@@ -28,8 +28,6 @@ use autodie;
     
     my $debug = 1;
     
-    my @results;
-    
     # Convenience methods.
     sub comparison {
         my $attribute_name = shift;
@@ -60,6 +58,7 @@ use autodie;
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
             }
+            $answer->{'display'} = $value_actual;
         }
         elsif ($variety eq 'regexp') {
             #$value_expected = qr/$value_expected/;
@@ -80,6 +79,8 @@ use autodie;
                             $answer->{'status'} = 'FAIL';
                             $answer->{'message'} = $message;
                         }        
+                        $answer->{'display'} = $value_act;
+                        last;
                     }
                 }
 
@@ -87,6 +88,7 @@ use autodie;
                     my $message = qq{Could not find a "$name" header};
                     $answer->{'status'} = 'FAIL';
                     $answer->{'message'} = $message;
+                    $answer->{'display'} = $value_actual->as_string;
                 }
             }
             elsif (defined(ref($value_actual)) and ref($value_actual)) {
@@ -96,6 +98,10 @@ use autodie;
                 my $message = qq{Got a response $attribute_name value of "$value_actual", which does not match the $variety expression "$value_expected"};
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
+                $answer->{'display'} = $value_actual;
+            }
+            else {
+                $answer->{'display'} = $value_actual;
             }
         }
         elsif ($variety eq 'jsonpath') {        
@@ -106,6 +112,7 @@ use autodie;
                 my $message = qq{Found $num_nodes response $attribute_name nodes matching the $variety expression "$expression":  Expected exactly one match};
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
+                $answer->{'display'} = join('; ', @nodes);
             }
             else {
                 my $value_actual = $nodes[0];
@@ -117,6 +124,8 @@ use autodie;
                     $answer->{'status'} = 'FAIL';
                     $answer->{'message'} = $message;
                 }
+
+                $answer->{'display'} = $value_actual;
             }    
         }
         elsif ($variety eq 'xpath') {
@@ -129,6 +138,7 @@ use autodie;
                 my $message = qq{Found $num_nodes response $attribute_name nodes matching the $variety expression "$expression":  Expected exactly one match};
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
+                $answer->{'display'} = join('; ', map { $_->nodeValue } @nodes);
             }
             else {
                 my $value_actual = $nodes[0]->nodeValue;
@@ -140,6 +150,8 @@ use autodie;
                     $answer->{'status'} = 'FAIL';
                     $answer->{'message'} = $message;
                 }
+
+                $answer->{'display'} = $value_actual;
             }
         }
         
@@ -178,7 +190,7 @@ use autodie;
         # Create unblessed copy. NECESSARY ?????????????????
         $test_specification = [@$test_specification];
         
-        my @result;
+        my @results;
                 
         my $test_counter = 0;
         foreach my $i (0 .. $#$test_specification) {
@@ -194,6 +206,8 @@ use autodie;
 
                 my $request = $test_specification->[$i]->{'steps'}->[$j]->{'request'};
 
+                my %step;
+
                 if ($request->{'variety'} ne 'uri') {
                     confess qq{Invalid request variety--Must be "uri", but you passed the value "$request->{'variety'}"};
                 }
@@ -201,8 +215,6 @@ use autodie;
                 if (!exists($request->{'target'}->{'uri'})) {
                     confess qq{Invalid request target--you did not specify a request target uri value};
                 }
-
-                my %step;
 
                 $step{'request'}{'variety'} = $request->{'variety'};
 
@@ -224,9 +236,11 @@ use autodie;
                 }
 
                 $uri = $uri->as_string;
+
+		$step{'request'}{'uri'} = $uri;
                             
                 if (exists($application_specifications->{'authorization'}) and defined($application_specifications->{'authorization'})) {
-                    if ($application_specifications->{'authorization'}->{'method'} eq 'X-Authorization') {
+                    if ($application_specifications->{'authorization'}->{'variety'} eq 'X-Authorization') {
                         $agent->default_header('X-Authorization' => $application_specifications->{'authorization'}->{'key'});
                     }
                 }
@@ -247,20 +261,20 @@ use autodie;
                     }
                 };
                 if ($@) {
-                    confess qq{Test # $test_counter could not be executed: $@};
+                    #confess qq{Test # $test_counter could not be executed: $@};
+                    $step{'actual'}{'error'} = qq{Test # $test_counter could not be executed: $@};
+                    last;
                 }
                 
-                my %result;
+                $step{'actual'}{'timestamp'}    = POSIX::strftime("%Y-%m-%dT%H:%M:%SZ", gmtime($start->[0]));
                 
-                $result{'actual'}{'timestamp'}    = POSIX::strftime("%Y-%m-%dT%H:%M:%SZ", gmtime($start->[0]));
-                
-                $result{'actual'}{'time'}        = tv_interval ($start, [gettimeofday]);                            
-                $result{'actual'}{'code'}         = $response->code;
-                $result{'actual'}{'uri'}         = $response->base;
-                $result{'actual'}{'headers'}            = $response->headers;
-                $result{'actual'}{'content'}            = $response->content;
-                $result{'actual'}{'format'}        = $response->header('Content-Type') || $response->content_type();
-                $result{'actual'}{'size'}        = $response->header('Content-Length') || length($response->content);
+                $step{'actual'}{'time'}        = tv_interval ($start, [gettimeofday]);                            
+                $step{'actual'}{'code'}         = $response->code;
+                $step{'actual'}{'uri'}         = $response->base;
+                $step{'actual'}{'headers'}            = $response->headers;
+                $step{'actual'}{'content'}            = $response->content;
+                $step{'actual'}{'format'}        = $response->header('Content-Type') || $response->content_type();
+                $step{'actual'}{'size'}        = $response->header('Content-Length') || length($response->content);
                                 
                 # Compare the these actual results with the expected results.
                 
@@ -269,20 +283,22 @@ use autodie;
                 my $parser = XML::LibXML->new();
                 my $xml_document;
                 
-                if (index($result{'actual'}{'format'}, 'xml') > -1) {
+                if (index($step{'actual'}{'format'}, 'xml') > -1) {
                     eval {
                         $xml_document =  XML::LibXML->load_xml(string => $response->content);
                     };
                     if ($@) {
-                        confess qq{The response is not XML as expected: $@}
+                        #confess qq{The response is not XML as expected: $@}
+                        $step{'actual'}{'error'} = qq{The response is not XML as expected: $@};
                     }
                 }
                 
                 # Save the expected results for displaying later.
                 foreach my $attrib_name (keys %{ $response_expected }) {
-                    foreach my $thingy (@{ $response_expected->{$attrib_name} }) {
+                    foreach my $k (0 .. $#{ $response_expected->{$attrib_name} }) {
+                        my $thingy = $response_expected->{$attrib_name}->[$k];
                         foreach my $thingy_attribute (keys %{ $thingy }) {
-                            $result{'expected'}{$attrib_name}{$thingy_attribute} = $thingy->{$thingy_attribute};
+                            $step{'expected'}{$attrib_name}[$k]{$thingy_attribute} = $thingy->{$thingy_attribute};
                         }
                     }
                 }
@@ -292,19 +308,21 @@ use autodie;
                 foreach my $attribute (@typical_attributes) {                                    
                     if (defined($response_expected->{$attribute})) { 
                         foreach my $k ( 0 .. $#{ $response_expected->{$attribute} }) {
-                            push @{ $result{'comparison'}{$attribute}}, comparison($attribute, $result{'actual'}{$attribute}, $response_expected->{$attribute}->[$k], $xml_document);
+                            push @{ $step{'comparison'}{$attribute}}, comparison($attribute, $step{'actual'}{$attribute}, $response_expected->{$attribute}->[$k], $xml_document);
                         }
                     }
                 }
 
-                push @result, \%result;
+                push @{ $test{'steps'} }, \%step;
             }    
+
+            push @results, \%test;
         }
     
         my $result_file_path  = File::Spec->catfile($document_root, 'results', "$application.$test_type.$epoch_seconds.result");
         open(my $result_fh, '>', $result_file_path);
         binmode($result_fh, ':utf8');
-        print $result_fh $json->encode(\@result);
+        print $result_fh $json->encode(\@results);
         close $result_fh;
         
         close $log_fh if $log_it;

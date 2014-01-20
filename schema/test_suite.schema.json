@@ -18,8 +18,7 @@
 				},
 				"path": { "type": "string" },
 				"query": {
-					"type": "array",
-					"items": { "type": "object" }
+					"type": "object"
 				},
 				"fragment": { "type": "string" }
 			},

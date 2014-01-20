@@ -58,6 +58,7 @@ use autodie;
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
             }
+            $answer->{'display'} = $value_actual;
         }
         elsif ($variety eq 'regexp') {
             #$value_expected = qr/$value_expected/;
@@ -78,6 +79,8 @@ use autodie;
                             $answer->{'status'} = 'FAIL';
                             $answer->{'message'} = $message;
                         }
+                        $answer->{'display'} = $value_act;
+                        last;
                     }
                 }
 
@@ -85,6 +88,7 @@ use autodie;
                     my $message = qq{Could not find a "$name" header};
                     $answer->{'status'} = 'FAIL';
                     $answer->{'message'} = $message;
+                    $answer->{'display'} = $value_actual->as_string;
                 }
             }
             elsif (defined(ref($value_actual)) and ref($value_actual)) {
@@ -94,30 +98,11 @@ use autodie;
                 my $message = qq{Got a response $attribute_name value of "$value_actual", which does not match the $variety expression "$value_expected"};
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
-            }
-        }
-        elsif ($variety eq 'jsonpath') {        
-            my $jpath   = JSON::Path->new($expression);
-            my @nodes   = $jpath->values($value_actual);
-            my $num_nodes = (@nodes and scalar(@nodes) ? scalar(@nodes) : 0);
-            if ($num_nodes != 1) {
-                my $message = qq{Found $num_nodes response $attribute_name nodes matching the $variety expression "$expression":  Expected exactly one match};
-                $answer->{'status'} = 'FAIL';
-                $answer->{'message'} = $message;
+                $answer->{'display'} = $value_actual;
             }
             else {
-                my $value_actual = $nodes[0];
-                $value_actual =~ s/^\s+//;
-                $value_actual =~ s/\s+$//;
-                
-                if ($value_actual ne $value_expected) {
-                    my $message = qq{The response $attribute_name value found at $variety "$expression" is "$value_actual" instead of the expected value "$value_expected"};
-                    $answer->{'status'} = 'FAIL';
-                    $answer->{'message'} = $message;
-                }
-
-                $answer->{'value_actual'} = $value_actual;
-            }    
+                $answer->{'display'} = $value_actual;
+            }
         }
         elsif ($variety eq 'xpath') {
             $document->parse($value_actual);
@@ -128,6 +113,7 @@ use autodie;
                 my $message = qq{Found $num_nodes response $attribute_name nodes matching the $variety expression "$expression":  Expected exactly one match};
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
+                $answer->{'display'} = join('; ', @nodes);
             }
             else {
                 my $value_actual = $nodes[0];
@@ -140,7 +126,7 @@ use autodie;
                         $answer->{'message'} = $message;
                 }
 
-                $answer->{'value_actual'} = $value_actual;
+                $answer->{'display'} = $value_actual;
             }
         }
         elsif ($variety eq 'image') {
@@ -152,15 +138,17 @@ use autodie;
                 my $message = qq{Found $num_images images where "$attribute" equals "$val": Expected exactly one match};
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
+                $answer->{'display'} = join(', ', map { $_->url_abs } $agent->find_all_images());
             }
-
-            $answer->{'value_actual'} = $images[0]->url_abs;
+            else {
+                $answer->{'display'} = $images[0]->url;
+            }
         }
         else {
             confess qq{The "$variety" comparison type is not yet implemented};
         }
 
-        return $answer
+        return $answer;
     }    
 
     # Object Methods
@@ -265,7 +253,9 @@ use autodie;
                         }
                     };
                     if ($@) {
-                        confess qq{Test # $test_counter step # $step_counter could not be executed: $@};
+                        #confess qq{Test # $test_counter step # $step_counter could not be executed: $@};
+                        $step{'actual'}{'error'} = qq{Test # $test_counter step # $step_counter could not be executed: $@};
+                        last;
                     }
                 }
                 elsif ($request->{'variety'} eq 'form') {
@@ -284,7 +274,9 @@ use autodie;
                         $response = $agent->submit_form(%{ $request->{'target'} });
                     };
                     if ($@) {
-                        confess qq{Test # $test_counter step # $step_counter could not be executed: $@};
+                        #confess qq{Test # $test_counter step # $step_counter could not be executed: $@};
+                        $step{'actual'}{'error'} =  qq{Test # $test_counter step # $step_counter could not be executed: $@};
+                        last;
                     }
                 }
                 else {
