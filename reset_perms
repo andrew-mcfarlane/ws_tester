@@ -2,7 +2,7 @@
 
 # Re-align apache and git permissions for ws_tester project folder
 
-proj_dir="/var/www/http/ws_tester"
+proj_dir="/data/apps/ws_tester"
 
 # Apache httpd
 sudo chown -R apache:webmgr .
