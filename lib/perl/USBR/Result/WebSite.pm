@@ -101,7 +101,7 @@ use autodie;
                 $answer->{'display'} = $value_actual;
             }
             else {
-                $answer->{'display'} = $value_actual;
+                $answer->{'display'} = $value_expected;
             }
         }
         elsif ($variety eq 'xpath') {
@@ -109,11 +109,25 @@ use autodie;
 
             my @nodes = $document->findnodes_as_strings($expression);
             my $num_nodes = (@nodes and scalar(@nodes) ? scalar(@nodes) : 0);
+            my $all_same_values = 1;
             if ($num_nodes != 1) {
-                my $message = qq{Found $num_nodes response $attribute_name nodes matching the $variety expression "$expression":  Expected exactly one match};
-                $answer->{'status'} = 'FAIL';
-                $answer->{'message'} = $message;
-                $answer->{'display'} = join('; ', @nodes);
+                # Compromise here.  If all the node values are the same, then we'll say this is a PASS.
+                foreach my $i (1 .. $#nodes) {
+                    if ($nodes[$i] ne $nodes[$i - 1]) {
+                        $all_same_values = 0;
+                        last;
+                    }
+                }
+
+                if (!$all_same_values) {
+                    my $message = qq{Found $num_nodes response $attribute_name nodes matching the $variety expression "$expression":  Expected exactly one match};
+                    $answer->{'status'} = 'FAIL';
+                    $answer->{'message'} = $message;
+                    $answer->{'display'} = join('; ', @nodes);
+                }
+                else {
+                    $answer->{'display'} = $nodes[0];
+                }
             }
             else {
                 my $value_actual = $nodes[0];
@@ -131,17 +145,36 @@ use autodie;
         }
         elsif ($variety eq 'image') {
             my ($attribute, $val) = split /\=/, $value_expected;
-            my @images = $agent->find_image($attribute => $val);
+            my @images = $agent->find_all_images($attribute => $val);
             my $num_images = scalar(@images);
             
             if ($num_images != 1) {
                 my $message = qq{Found $num_images images where "$attribute" equals "$val": Expected exactly one match};
                 $answer->{'status'} = 'FAIL';
                 $answer->{'message'} = $message;
-                $answer->{'display'} = join(', ', map { $_->url_abs } $agent->find_all_images());
+                $answer->{'display'} = join(', ', map { $_->url_abs } @images);
             }
             else {
-                $answer->{'display'} = $images[0]->url;
+                eval {
+                    $answer->{'display'} = $images[0]->$attribute();
+                };
+            }
+        }
+        elsif ($variety eq 'link') {
+            my ($attribute, $val) = split /\=/, $value_expected;
+            my @links = $agent->find_all_links($attribute => $val);
+            my $num_links = scalar(@links);
+
+            if ($num_links != 1) {
+                my $message = qq{Found $num_links links where "$attribute" equals "$val": Expected exactly one match};
+                $answer->{'status'} = 'FAIL';
+                $answer->{'message'} = $message;
+                $answer->{'display'} = join(', ', map { $_->url_abs } @links);
+            }
+            else {
+                eval {
+                    $answer->{'display'} = $links[0]->$attribute();
+                };
             }
         }
         else {
@@ -185,6 +218,8 @@ use autodie;
 
         my @results;
 
+        $agent->cookie_jar->clear();
+
         my $test_counter = 0;
         foreach my $i (0 .. $#$test_specification) {
             $test_counter++;
@@ -214,7 +249,10 @@ use autodie;
                     my $uri = URI->new();
                     $uri->scheme($request->{'target'}->{'uri'}->{'scheme'});
                     $uri->host($request->{'target'}->{'uri'}->{'host'});        
-                    $uri->port($request->{'target'}->{'uri'}->{'port'});        
+
+                    if (exists($request->{'target'}->{'uri'}->{'port'})) {
+                        $uri->port($request->{'target'}->{'uri'}->{'port'});        
+                    }
                     
                     if (exists($request->{'target'}->{'uri'}->{'path'})) {
                         $uri->path($request->{'target'}->{'uri'}->{'path'});    
@@ -287,7 +325,7 @@ use autodie;
                 
                 $step{'actual'}{'time'}        = tv_interval ($start, [gettimeofday]);                            
                 $step{'actual'}{'code'}         = $response->code;
-                $step{'actual'}{'uri'}         = $response->base;
+                $step{'actual'}{'uri'}         = $response->base->as_string;
                 $step{'actual'}{'headers'}    = $response->headers;
                 $step{'actual'}{'content'}    = $response->decoded_content;
                 $step{'actual'}{'format'}        = $response->header('Content-Type') || $response->content_type();
@@ -305,11 +343,28 @@ use autodie;
                         $document->parse($response->content);
                     };
                     if ($@) {
-                        confess qq{The response is not HTML as expected: $@}
+                        push @{ $step{'comparison'}{'format'} }, { 'status' => 'FAIL', 'display' => $step{'actual'}{'format'}, 'message' => "The response format is $step{'actual'}{'format'} and not html as expected" };
+                    }
+                    else {
+                        push @{ $step{'comparison'}{'format'} }, { 'status' => 'PASS', 'display' => $step{'actual'}{'format'} };
+
+                        # for each href and src tag, make sure that there values are absolute.
+			my $temp_content = $step{'actual'}{'content'};
+                        while ($step{'actual'}{'content'} =~ m/(href|src)\="([^"]+)"/gi) {
+                            my $old = $2;
+                            my $uri = URI->new_abs($old, $response->base);
+                            $temp_content =~ s/$old/$uri/g;
+                        }
+
+                        # Remove some characters.
+                        $temp_content =~ s/[\t\r\n]+//g;
+                        $temp_content =~ s/\s\s/ /g;
+
+                        $step{'actual'}{'content'} = $temp_content;
                     }
                 }
                 else {
-                    confess qq{The response is not HTML as expected};
+                    push @{ $step{'comparison'}{'format'} }, { 'status' => 'FAIL', 'display' => $step{'actual'}{'format'}, 'message' => "The response format is $step{'actual'}{'format'} and not html as expected" };
                 }
                                                 
                 # Save the expected results for displaying later.

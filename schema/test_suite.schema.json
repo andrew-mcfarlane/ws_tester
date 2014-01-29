@@ -22,7 +22,7 @@
 				},
 				"fragment": { "type": "string" }
 			},
-			"required": ["scheme", "host", "port"]
+			"required": ["scheme", "host"]
 		},
 		"header": {
 			"type": "object",

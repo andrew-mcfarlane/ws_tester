@@ -1,0 +1,75 @@
+[
+	{
+		"title": "Failed Authentication Test",
+		"steps": [
+			{
+				"request": {
+					"variety": "uri",
+					"target": {
+						"uri": {
+							"scheme": "https",
+							"host": "dev.etas.usbr.gov",
+							"path": "ETAS/common/Login.jsp"
+						},
+						"method": "GET"
+					}
+				},
+				"response_expected": {
+						"headers": [
+							{"name": "Connection", "variety": "regexp", "value": "^close$"},
+							{"name": "Date", "variety": "regexp", "value": "^[MTWTFS][ouehra][neduit], \\d{2} [JFMAJSOND][aepuco][nbrylgptvc] \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$"}
+						],
+						"format": [{ "variety": "regexp", "value": "html"}],
+						"time": [{ "variety": "logical", "operator": "<", "value": 6.0 }],
+						"content": [
+							{
+								"value": "United States Government",
+								"variety": "regexp"
+							},
+							{
+								"value": "EXPECTATION OF PRIVACY",
+								"variety": "regexp"
+							}
+						],
+						"size": [{ "variety": "logical", "operator": ">", "value": 1000 }],
+						"code": [{ "variety": "logical", "operator": "<", "value": 400 }],
+						"title": [{ "variety": "logical", "operator": "eq", "value": "E-TAS login"}]
+				}
+			},
+			{
+				"request": {
+					"variety": "form",
+					"target": {
+						"form_name": "login",
+						"fields": {
+								"UserID": "tclock!",
+								"Password": "notmypassword"
+						}
+					}
+				},
+				"response_expected": {
+						"headers": [
+							{"name": "Connection", "variety": "regexp", "value": "^close$"},
+							{"name": "Date", "variety": "regexp", "value": "^[MTWTFS][ouehra][neduit], \\d{2} [JFMAJSOND][aepuco][nbrylgptvc] \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$"}
+						],
+						"format": [{ "variety": "regexp", "value": "html"}],
+						"time": [{ "variety": "logical", "operator": "<", "value": 3.0 }],
+						"content": [
+							{
+								"variety": "regexp",
+								"value": "Invalid password for test"
+							},
+							{
+								"value": "text=Login screen",
+								"variety": "link"
+							}
+						],
+						"size": [{ "variety": "logical", "operator": ">", "value": 1000 }],
+						"code": [{ "variety": "logical", "operator": "==", "value": 500 }],
+						"title": [{ "variety": "logical", "operator": "eq", "value": "E-TAS - Login failure"}]
+				}
+                        }
+		]
+	}
+]
+

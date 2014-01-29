@@ -9,7 +9,7 @@ use CGI;
 use File::Basename;
 use File::Spec::Functions;
 
-use lib File::Spec->catdir(File::Basename::dirname(File::Spec->rel2abs(__FILE__)), '..', 'lib', 'perl');
+use lib File::Spec->catdir(File::Basename::dirname(File::Spec->rel2abs(__FILE__)), 'lib', 'perl');
 
 use USBR::Test;
 
@@ -20,7 +20,8 @@ unless (exists $ENV{'GATEWAY_INTERFACE'}) {
 	#$cgi->param('action', 'request_test_info');
 	$cgi->param('action', 'execute_tests');
 	#$cgi->param('action', 'request_results');
-	$cgi->param('application', 'ZEITOnline');
+	#$cgi->param('application', 'dev_etas');
+	$cgi->param('application', 'www_USBR');	
 	$cgi->param('test_type', 'sanity');
 }
 
