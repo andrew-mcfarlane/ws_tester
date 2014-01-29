@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Re-align apache and git permissions for ws_tester project folder
+
+proj_dir="/var/www/http/ws_tester"
+
+# Apache httpd
+sudo chown -R apache:webmgr .
+sudo chmod -R 775 .
+
+# git
+sudo chown -R git:gitter .git
+sudo chown git:gitter .gitignore
+sudo chmod -R 774 .git
+ 
