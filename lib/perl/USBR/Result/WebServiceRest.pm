@@ -303,7 +303,7 @@ use autodie;
                     }
                 }
                 
-                my @typical_attributes = ('headers', 'time', 'format', 'code', 'format', 'content', 'size');
+                my @typical_attributes = ('headers', 'time', 'code', 'format', 'content', 'size');
                 
                 foreach my $attribute (@typical_attributes) {                                    
                     if (defined($response_expected->{$attribute})) { 
